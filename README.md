@@ -1,15 +1,9 @@
 ## Համիլտոնյան Ցիկլները Ցանցային Գրաֆներում
+
 ### Նպատակ
 Աշխատանքի հիմնական նպատակն է ուսումնասիրել ուղղանկյուն ցանցային գրաֆների Համիլտոնյան հատկությունները՝ կարևորելով դրանց կառուցվածքային առանձնահատկությունները, հաշվարկային բարդությունը և համակարգային գեներացումը։
 1. Պատահական Համիլտոնյան ցիկլերի ստացում ցանցային գրաֆում։
 2. **𝑚 × 𝑛** չափի ցանցային գրաֆում Համիլտոնյան ցիկլերի քանակի ամբողջական հաշվարկ։
-
-
-### Գրականություն
-[Grid Hamiltonicity](https://www.csd.uoc.gr/~hy583/2010_presentations/Grid_Hamiltonicity.pdf)
-[Thoams Cormen. Introduction to Algorithms](http://lib.ysu.am/disciplines_bk/d8638ec79d25ba598f19ff369d91ce5e.pdf)
-[Donald Knuth. The Art of Computer Programming](https://haio.ir/wp-content/uploads/2024/12/Donald-Knuth-The-Art-of-Computer-Programming-Vol.-1_-Fundamental-Algorithms-3rd-Edition-Addison-Wesley-Professional-1997.pdf)
-[Reinhard Diestel. Graph Theory](https://www.prip.tuwien.ac.at/staffpages/yll/docs/graph_theory_book_diestel.pdf)
 
 ### Կիրառություն
 ##### 1. Ճանապարհների պլանավորում (Path Planning)
@@ -44,3 +38,9 @@
 - NP-բարդ խնդրի վրա ուսումնասիրություններ իրականացնելու։
 
 ցանցային գրաֆի Համիլտոնյան ցիկլի գոյությունը (եթե գոնե մեկը զույգ է) այն դարձնում է հարմար միջավայր այլ ալգորիթմների արդյունավետությունը փորձարկելու համար։
+
+### Գրականություն
+[Grid Hamiltonicity](https://www.csd.uoc.gr/~hy583/2010_presentations/Grid_Hamiltonicity.pdf)
+[Thoams Cormen. Introduction to Algorithms](http://lib.ysu.am/disciplines_bk/d8638ec79d25ba598f19ff369d91ce5e.pdf)
+[Donald Knuth. The Art of Computer Programming](https://haio.ir/wp-content/uploads/2024/12/Donald-Knuth-The-Art-of-Computer-Programming-Vol.-1_-Fundamental-Algorithms-3rd-Edition-Addison-Wesley-Professional-1997.pdf)
+[Reinhard Diestel. Graph Theory](https://www.prip.tuwien.ac.at/staffpages/yll/docs/graph_theory_book_diestel.pdf)
