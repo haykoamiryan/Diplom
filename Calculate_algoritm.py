@@ -109,7 +109,7 @@ def find_next_easiest_task(file_path):
             except ValueError:
                 continue
 
-            for n in range(1, 11):
+            for n in range(1, 31):
                 col_idx = n + 1
                 if col_idx < len(parts):
                     cell_content = parts[col_idx].strip()
