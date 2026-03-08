@@ -7,7 +7,7 @@ Enter the number of Hamiltonian cycles found for each grid size $(m \times n)$.
 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | **2** | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 |
 | **3** | 0 | 1 | 0 | 2 | 0 | 4 | 0 | 8 | 0 | 16 |
-| **4** | 0 | 1 | 2 | 6 | 14 | 37 | 92 | 236 | | |
+| **4** | 0 | 1 | 2 | 6 | 14 | 37 | 92 | 236 | 596 | |
 | **5** | 0 | 1 | 0 | 14 | 0 | 154 | 0 | | | |
 | **6** | 0 | 1 | 4 | 37 | 154 | | | | | |
 | **7** | 0 | 1 | 0 | 92 | 0 | | | | | |
@@ -81,3 +81,4 @@ Enter the number of Hamiltonian cycles found for each grid size $(m \times n)$.
 [8 x 4] Found: 236 cycles in 0.56s
 [5 x 7] Found: 0 cycles in 0.00s
 [7 x 5] Found: 0 cycles in 0.00s
+[4 x 9] Found: 596 cycles in 1.54s
