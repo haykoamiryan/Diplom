@@ -61,7 +61,7 @@ def count_hamiltonian_cycles(m: int, n: int) -> int:
                 count += 1
                 if count % 2 == 0:
                     elapsed = time.time() - start_time
-                    print(f"\rFound: {count // 2} | Time: {elapsed:.2f}s", end="", flush=True)
+                    print(f"\rFound: {count // 2:,} | Time: {elapsed:.2f}s", end="", flush=True)
             continue
 
         if visited & (1 << nb):
@@ -78,7 +78,7 @@ def count_hamiltonian_cycles(m: int, n: int) -> int:
 
     return count // 2
 
-def format_time_rus(seconds):
+def format_time_readable(seconds):
     m = int(seconds // 60)
     s = seconds % 60
     if m > 0:
@@ -89,13 +89,15 @@ def format_time_rus(seconds):
 def get_table_path():
     return os.path.join(os.path.dirname(os.path.abspath(__file__)), "Calculae table.md")
 
-def find_next_empty_cell(file_path):
+def find_next_easiest_task(file_path):
     if not os.path.exists(file_path):
         print(f"Error: Table file not found at {file_path}")
         return None
 
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
+
+    tasks = []
 
     for line_idx, line in enumerate(lines):
         stripped = line.strip()
@@ -112,8 +114,13 @@ def find_next_empty_cell(file_path):
                 if col_idx < len(parts):
                     cell_content = parts[col_idx].strip()
                     if cell_content == "":
-                        return (m, n)
-    return None
+                        tasks.append((m, n))
+    
+    if not tasks:
+        return None
+
+    tasks.sort(key=lambda x: (x[0] * x[1], x[0]))
+    return tasks[0]
 
 def update_table_file(file_path, m, n, result, time_str):
     with open(file_path, 'r', encoding='utf-8') as f:
@@ -127,7 +134,7 @@ def update_table_file(file_path, m, n, result, time_str):
             parts = line.split("|")
             col_idx = n + 1
             if col_idx < len(parts):
-                parts[col_idx] = f" {result} "
+                parts[col_idx] = f" {result:,} "
                 new_line = "|".join(parts)
                 new_lines.append(new_line)
                 table_updated = True
@@ -147,7 +154,7 @@ def update_table_file(file_path, m, n, result, time_str):
             new_lines.append("\n")
         new_lines.append("\n### Execution Logs\n")
 
-    log_entry = f"({m} {n} {time_str})\n"
+    log_entry = f"[{m} x {n}] Found: {result:,} cycles in {time_str}\n"
     new_lines.append(log_entry)
 
     with open(file_path, 'w', encoding='utf-8') as f:
@@ -158,22 +165,22 @@ def main():
     print(f"Tracking table file: {table_path}")
 
     while True:
-        task = find_next_empty_cell(table_path)
+        task = find_next_easiest_task(table_path)
         if not task:
             print("\nAll cells in the table are filled!")
             break
 
         m, n = task
-        print(f"\n[Auto-Bot] Processing grid {m}x{n}...")
+        print(f"\n[Auto-Bot] Processing grid {m}x{n} (complexity: {m*n})...")
 
         start_time = time.time()
         result = count_hamiltonian_cycles(m, n)
         end_time = time.time()
 
         elapsed = end_time - start_time
-        time_str = format_time_rus(elapsed)
+        time_str = format_time_readable(elapsed)
 
-        print(f"\n[Done] {m}x{n} = {result} (Time: {time_str})")
+        print(f"\n[Done] {m}x{n} = {result:,} (Time: {time_str})")
         
         print("Updating table...", end=" ")
         update_table_file(table_path, m, n, result, time_str)
