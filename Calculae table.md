@@ -7,9 +7,9 @@ Enter the number of Hamiltonian cycles found for each grid size $(m \times n)$.
 | **1** | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 | 0 |
 | **2** | 0 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | 1 | | | | | | |
 | **3** | 0 | 1 | 0 | 2 | 0 | 4 | 0 | 8 | 0 | 16 | 0 | 32 | 0 | 64 | 0 | 128 | | | | | | | | | | | | | | |
-| **4** | 0 | 1 | 2 | 6 | 14 | 37 | 92 | 236 | 596 | 1,517 | 3,846 | | | | | | | | | | | | | | | | | | | |
+| **4** | 0 | 1 | 2 | 6 | 14 | 37 | 92 | 236 | 596 | 1,517 | 3,846 | 9,770 | | | | | | | | | | | | | | | | | | |
 | **5** | 0 | 1 | 0 | 14 | 0 | 154 | 0 | 1,696 | 0 | | | | | | | | | | | | | | | | | | | | | |
-| **6** | 0 | 1 | 4 | 37 | 154 | 1,072 | 5,320 | | | | | | | | | | | | | | | | | | | | | | | |
+| **6** | 0 | 1 | 4 | 37 | 154 | 1,072 | 5,320 | 32,675 | | | | | | | | | | | | | | | | | | | | | | |
 | **7** | 0 | 1 | 0 | 92 | 0 | 5,320 | | | | | | | | | | | | | | | | | | | | | | | | |
 | **8** | 0 | 1 | 8 | 236 | 1,696 | | | | | | | | | | | | | | | | | | | | | | | | | |
 | **9** | 0 | 1 | 0 | 596 | 0 | | | | | | | | | | | | | | | | | | | | | | | | | |
@@ -36,159 +36,164 @@ Enter the number of Hamiltonian cycles found for each grid size $(m \times n)$.
 | **30** | 0 | | | | | | | | | | | | | | | | | | | | | | | | | | | | | |
 
 ### Execution Logs
-[1 x 1] Found: 0 cycles in 0.00s
-[1 x 2] Found: 0 cycles in 0.00s
-[2 x 1] Found: 0 cycles in 0.00s
-[1 x 3] Found: 0 cycles in 0.00s
-[3 x 1] Found: 0 cycles in 0.00s
-[1 x 4] Found: 0 cycles in 0.00s
-[2 x 2] Found: 1 cycles in 0.00s
-[4 x 1] Found: 0 cycles in 0.00s
-[1 x 5] Found: 0 cycles in 0.00s
-[5 x 1] Found: 0 cycles in 0.00s
-[1 x 6] Found: 0 cycles in 0.00s
-[2 x 3] Found: 1 cycles in 0.00s
-[3 x 2] Found: 1 cycles in 0.00s
-[6 x 1] Found: 0 cycles in 0.00s
-[1 x 7] Found: 0 cycles in 0.00s
-[7 x 1] Found: 0 cycles in 0.00s
-[1 x 8] Found: 0 cycles in 0.00s
-[2 x 4] Found: 1 cycles in 0.00s
-[4 x 2] Found: 1 cycles in 0.01s
-[8 x 1] Found: 0 cycles in 0.00s
-[1 x 9] Found: 0 cycles in 0.00s
-[3 x 3] Found: 0 cycles in 0.00s
-[9 x 1] Found: 0 cycles in 0.00s
-[1 x 10] Found: 0 cycles in 0.00s
-[2 x 5] Found: 1 cycles in 0.00s
-[5 x 2] Found: 1 cycles in 0.00s
-[10 x 1] Found: 0 cycles in 0.00s
-[1 x 11] Found: 0 cycles in 0.00s
-[11 x 1] Found: 0 cycles in 0.00s
-[1 x 12] Found: 0 cycles in 0.00s
-[2 x 6] Found: 1 cycles in 0.00s
-[3 x 4] Found: 2 cycles in 0.00s
-[4 x 3] Found: 2 cycles in 0.00s
-[6 x 2] Found: 1 cycles in 0.00s
-[12 x 1] Found: 0 cycles in 0.00s
-[1 x 13] Found: 0 cycles in 0.00s
-[13 x 1] Found: 0 cycles in 0.00s
-[1 x 14] Found: 0 cycles in 0.00s
-[2 x 7] Found: 1 cycles in 0.00s
-[7 x 2] Found: 1 cycles in 0.00s
-[14 x 1] Found: 0 cycles in 0.00s
-[1 x 15] Found: 0 cycles in 0.00s
-[3 x 5] Found: 0 cycles in 0.00s
-[5 x 3] Found: 0 cycles in 0.00s
-[15 x 1] Found: 0 cycles in 0.00s
-[1 x 16] Found: 0 cycles in 0.00s
-[2 x 8] Found: 1 cycles in 0.00s
-[4 x 4] Found: 6 cycles in 0.00s
-[8 x 2] Found: 1 cycles in 0.00s
-[16 x 1] Found: 0 cycles in 0.00s
-[1 x 17] Found: 0 cycles in 0.00s
-[17 x 1] Found: 0 cycles in 0.00s
-[1 x 18] Found: 0 cycles in 0.00s
-[2 x 9] Found: 1 cycles in 0.00s
-[3 x 6] Found: 4 cycles in 0.00s
-[6 x 3] Found: 4 cycles in 0.00s
-[9 x 2] Found: 1 cycles in 0.00s
-[18 x 1] Found: 0 cycles in 0.00s
-[1 x 19] Found: 0 cycles in 0.00s
-[19 x 1] Found: 0 cycles in 0.00s
-[1 x 20] Found: 0 cycles in 0.00s
-[2 x 10] Found: 1 cycles in 0.00s
-[4 x 5] Found: 14 cycles in 0.01s
-[5 x 4] Found: 14 cycles in 0.01s
-[10 x 2] Found: 1 cycles in 0.00s
-[20 x 1] Found: 0 cycles in 0.00s
-[1 x 21] Found: 0 cycles in 0.00s
-[3 x 7] Found: 0 cycles in 0.00s
-[7 x 3] Found: 0 cycles in 0.00s
-[21 x 1] Found: 0 cycles in 0.00s
-[1 x 22] Found: 0 cycles in 0.00s
-[2 x 11] Found: 1 cycles in 0.00s
-[11 x 2] Found: 1 cycles in 0.00s
-[22 x 1] Found: 0 cycles in 0.00s
-[1 x 23] Found: 0 cycles in 0.00s
-[23 x 1] Found: 0 cycles in 0.00s
-[1 x 24] Found: 0 cycles in 0.00s
-[2 x 12] Found: 1 cycles in 0.00s
-[3 x 8] Found: 8 cycles in 0.01s
-[4 x 6] Found: 37 cycles in 0.03s
-[6 x 4] Found: 37 cycles in 0.03s
-[8 x 3] Found: 8 cycles in 0.01s
-[12 x 2] Found: 1 cycles in 0.00s
-[24 x 1] Found: 0 cycles in 0.00s
-[1 x 25] Found: 0 cycles in 0.00s
-[5 x 5] Found: 0 cycles in 0.00s
-[25 x 1] Found: 0 cycles in 0.00s
-[1 x 26] Found: 0 cycles in 0.00s
-[2 x 13] Found: 1 cycles in 0.00s
-[13 x 2] Found: 1 cycles in 0.00s
-[26 x 1] Found: 0 cycles in 0.00s
-[1 x 27] Found: 0 cycles in 0.00s
-[3 x 9] Found: 0 cycles in 0.00s
-[9 x 3] Found: 0 cycles in 0.00s
-[27 x 1] Found: 0 cycles in 0.00s
-[1 x 28] Found: 0 cycles in 0.00s
-[2 x 14] Found: 1 cycles in 0.00s
-[4 x 7] Found: 92 cycles in 0.10s
-[7 x 4] Found: 92 cycles in 0.09s
-[14 x 2] Found: 1 cycles in 0.00s
-[28 x 1] Found: 0 cycles in 0.00s
-[1 x 29] Found: 0 cycles in 0.00s
-[29 x 1] Found: 0 cycles in 0.00s
-[1 x 30] Found: 0 cycles in 0.00s
-[2 x 15] Found: 1 cycles in 0.00s
-[3 x 10] Found: 16 cycles in 0.03s
-[5 x 6] Found: 154 cycles in 0.25s
-[6 x 5] Found: 154 cycles in 0.34s
-[10 x 3] Found: 16 cycles in 0.03s
-[15 x 2] Found: 1 cycles in 0.00s
-[30 x 1] Found: 0 cycles in 0.00s
-[2 x 16] Found: 1 cycles in 0.00s
-[4 x 8] Found: 236 cycles in 0.32s
-[8 x 4] Found: 236 cycles in 0.32s
-[16 x 2] Found: 1 cycles in 0.00s
-[3 x 11] Found: 0 cycles in 0.00s
-[11 x 3] Found: 0 cycles in 0.00s
-[2 x 17] Found: 1 cycles in 0.00s
-[17 x 2] Found: 1 cycles in 0.00s
-[5 x 7] Found: 0 cycles in 0.00s
-[7 x 5] Found: 0 cycles in 0.00s
-[2 x 18] Found: 1 cycles in 0.00s
-[3 x 12] Found: 32 cycles in 0.11s
-[4 x 9] Found: 596 cycles in 1.22s
-[6 x 6] Found: 1,072 cycles in 2.33s
-[9 x 4] Found: 596 cycles in 1.03s
-[12 x 3] Found: 32 cycles in 0.12s
-[18 x 2] Found: 1 cycles in 0.04s
-[2 x 19] Found: 1 cycles in 0.00s
-[19 x 2] Found: 1 cycles in 0.00s
-[3 x 13] Found: 0 cycles in 0.00s
-[13 x 3] Found: 0 cycles in 0.00s
-[2 x 20] Found: 1 cycles in 0.00s
-[4 x 10] Found: 1,517 cycles in 4.94s
-[5 x 8] Found: 1,696 cycles in 10.03s
-[8 x 5] Found: 1,696 cycles in 6.46s
-[10 x 4] Found: 1,517 cycles in 3.79s
-[20 x 2] Found: 1 cycles in 0.00s
-[2 x 21] Found: 1 cycles in 0.00s
-[3 x 14] Found: 64 cycles in 0.61s
-[6 x 7] Found: 5,320 cycles in 20.69s
-[7 x 6] Found: 5,320 cycles in 17.07s
-[14 x 3] Found: 64 cycles in 0.43s
-[21 x 2] Found: 1 cycles in 0.00s
-[2 x 22] Found: 1 cycles in 0.00s
-[4 x 11] Found: 3,846 cycles in 8.17s
-[11 x 4] Found: 3,846 cycles in 8.03s
-[22 x 2] Found: 1 cycles in 0.01s
-[3 x 15] Found: 0 cycles in 0.00s
-[5 x 9] Found: 0 cycles in 0.00s
-[9 x 5] Found: 0 cycles in 0.00s
-[15 x 3] Found: 0 cycles in 0.00s
-[2 x 23] Found: 1 cycles in 0.00s
-[23 x 2] Found: 1 cycles in 0.00s
-[2 x 24] Found: 1 cycles in 0.00s
-[3 x 16] Found: 128 cycles in 1.26s
+
+| Grid Size | Cycles Found | Time |
+| :---: | :---: | :---: |
+| 1 x 1 | 0 | 0.00s |
+| 1 x 2 | 0 | 0.00s |
+| 2 x 1 | 0 | 0.00s |
+| 1 x 3 | 0 | 0.00s |
+| 3 x 1 | 0 | 0.00s |
+| 1 x 4 | 0 | 0.00s |
+| 2 x 2 | 1 | 0.00s |
+| 4 x 1 | 0 | 0.00s |
+| 1 x 5 | 0 | 0.00s |
+| 5 x 1 | 0 | 0.00s |
+| 1 x 6 | 0 | 0.00s |
+| 2 x 3 | 1 | 0.00s |
+| 3 x 2 | 1 | 0.00s |
+| 6 x 1 | 0 | 0.00s |
+| 1 x 7 | 0 | 0.00s |
+| 7 x 1 | 0 | 0.00s |
+| 1 x 8 | 0 | 0.00s |
+| 2 x 4 | 1 | 0.00s |
+| 4 x 2 | 1 | 0.01s |
+| 8 x 1 | 0 | 0.00s |
+| 1 x 9 | 0 | 0.00s |
+| 3 x 3 | 0 | 0.00s |
+| 9 x 1 | 0 | 0.00s |
+| 1 x 10 | 0 | 0.00s |
+| 2 x 5 | 1 | 0.00s |
+| 5 x 2 | 1 | 0.00s |
+| 10 x 1 | 0 | 0.00s |
+| 1 x 11 | 0 | 0.00s |
+| 11 x 1 | 0 | 0.00s |
+| 1 x 12 | 0 | 0.00s |
+| 2 x 6 | 1 | 0.00s |
+| 3 x 4 | 2 | 0.00s |
+| 4 x 3 | 2 | 0.00s |
+| 6 x 2 | 1 | 0.00s |
+| 12 x 1 | 0 | 0.00s |
+| 1 x 13 | 0 | 0.00s |
+| 13 x 1 | 0 | 0.00s |
+| 1 x 14 | 0 | 0.00s |
+| 2 x 7 | 1 | 0.00s |
+| 7 x 2 | 1 | 0.00s |
+| 14 x 1 | 0 | 0.00s |
+| 1 x 15 | 0 | 0.00s |
+| 3 x 5 | 0 | 0.00s |
+| 5 x 3 | 0 | 0.00s |
+| 15 x 1 | 0 | 0.00s |
+| 1 x 16 | 0 | 0.00s |
+| 2 x 8 | 1 | 0.00s |
+| 4 x 4 | 6 | 0.00s |
+| 8 x 2 | 1 | 0.00s |
+| 16 x 1 | 0 | 0.00s |
+| 1 x 17 | 0 | 0.00s |
+| 17 x 1 | 0 | 0.00s |
+| 1 x 18 | 0 | 0.00s |
+| 2 x 9 | 1 | 0.00s |
+| 3 x 6 | 4 | 0.00s |
+| 6 x 3 | 4 | 0.00s |
+| 9 x 2 | 1 | 0.00s |
+| 18 x 1 | 0 | 0.00s |
+| 1 x 19 | 0 | 0.00s |
+| 19 x 1 | 0 | 0.00s |
+| 1 x 20 | 0 | 0.00s |
+| 2 x 10 | 1 | 0.00s |
+| 4 x 5 | 14 | 0.01s |
+| 5 x 4 | 14 | 0.01s |
+| 10 x 2 | 1 | 0.00s |
+| 20 x 1 | 0 | 0.00s |
+| 1 x 21 | 0 | 0.00s |
+| 3 x 7 | 0 | 0.00s |
+| 7 x 3 | 0 | 0.00s |
+| 21 x 1 | 0 | 0.00s |
+| 1 x 22 | 0 | 0.00s |
+| 2 x 11 | 1 | 0.00s |
+| 11 x 2 | 1 | 0.00s |
+| 22 x 1 | 0 | 0.00s |
+| 1 x 23 | 0 | 0.00s |
+| 23 x 1 | 0 | 0.00s |
+| 1 x 24 | 0 | 0.00s |
+| 2 x 12 | 1 | 0.00s |
+| 3 x 8 | 8 | 0.01s |
+| 4 x 6 | 37 | 0.03s |
+| 6 x 4 | 37 | 0.03s |
+| 8 x 3 | 8 | 0.01s |
+| 12 x 2 | 1 | 0.00s |
+| 24 x 1 | 0 | 0.00s |
+| 1 x 25 | 0 | 0.00s |
+| 5 x 5 | 0 | 0.00s |
+| 25 x 1 | 0 | 0.00s |
+| 1 x 26 | 0 | 0.00s |
+| 2 x 13 | 1 | 0.00s |
+| 13 x 2 | 1 | 0.00s |
+| 26 x 1 | 0 | 0.00s |
+| 1 x 27 | 0 | 0.00s |
+| 3 x 9 | 0 | 0.00s |
+| 9 x 3 | 0 | 0.00s |
+| 27 x 1 | 0 | 0.00s |
+| 1 x 28 | 0 | 0.00s |
+| 2 x 14 | 1 | 0.00s |
+| 4 x 7 | 92 | 0.10s |
+| 7 x 4 | 92 | 0.09s |
+| 14 x 2 | 1 | 0.00s |
+| 28 x 1 | 0 | 0.00s |
+| 1 x 29 | 0 | 0.00s |
+| 29 x 1 | 0 | 0.00s |
+| 1 x 30 | 0 | 0.00s |
+| 2 x 15 | 1 | 0.00s |
+| 3 x 10 | 16 | 0.03s |
+| 5 x 6 | 154 | 0.25s |
+| 6 x 5 | 154 | 0.34s |
+| 10 x 3 | 16 | 0.03s |
+| 15 x 2 | 1 | 0.00s |
+| 30 x 1 | 0 | 0.00s |
+| 2 x 16 | 1 | 0.00s |
+| 4 x 8 | 236 | 0.32s |
+| 8 x 4 | 236 | 0.32s |
+| 16 x 2 | 1 | 0.00s |
+| 3 x 11 | 0 | 0.00s |
+| 11 x 3 | 0 | 0.00s |
+| 2 x 17 | 1 | 0.00s |
+| 17 x 2 | 1 | 0.00s |
+| 5 x 7 | 0 | 0.00s |
+| 7 x 5 | 0 | 0.00s |
+| 2 x 18 | 1 | 0.00s |
+| 3 x 12 | 32 | 0.11s |
+| 4 x 9 | 596 | 1.22s |
+| 6 x 6 | 1,072 | 2.33s |
+| 9 x 4 | 596 | 1.03s |
+| 12 x 3 | 32 | 0.12s |
+| 18 x 2 | 1 | 0.04s |
+| 2 x 19 | 1 | 0.00s |
+| 19 x 2 | 1 | 0.00s |
+| 3 x 13 | 0 | 0.00s |
+| 13 x 3 | 0 | 0.00s |
+| 2 x 20 | 1 | 0.00s |
+| 4 x 10 | 1,517 | 4.94s |
+| 5 x 8 | 1,696 | 10.03s |
+| 8 x 5 | 1,696 | 6.46s |
+| 10 x 4 | 1,517 | 3.79s |
+| 20 x 2 | 1 | 0.00s |
+| 2 x 21 | 1 | 0.00s |
+| 3 x 14 | 64 | 0.61s |
+| 6 x 7 | 5,320 | 20.69s |
+| 7 x 6 | 5,320 | 17.07s |
+| 14 x 3 | 64 | 0.43s |
+| 21 x 2 | 1 | 0.00s |
+| 2 x 22 | 1 | 0.00s |
+| 4 x 11 | 3,846 | 8.17s |
+| 11 x 4 | 3,846 | 8.03s |
+| 22 x 2 | 1 | 0.01s |
+| 3 x 15 | 0 | 0.00s |
+| 5 x 9 | 0 | 0.00s |
+| 9 x 5 | 0 | 0.00s |
+| 15 x 3 | 0 | 0.00s |
+| 2 x 23 | 1 | 0.00s |
+| 23 x 2 | 1 | 0.00s |
+| 2 x 24 | 1 | 0.00s |
+| 3 x 16 | 128 | 1.26s |
+| 4 x 12 | 9,770 | 34.00s |
+| 6 x 8 | 32,675 | 2m 46s |
