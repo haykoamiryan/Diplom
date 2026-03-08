@@ -152,9 +152,9 @@ def update_table_file(file_path, m, n, result, time_str):
     if not has_log_header:
         if not new_lines[-1].endswith("\n"):
             new_lines.append("\n")
-        new_lines.append("\n### Execution Logs\n")
+        new_lines.append("\n### Execution Logs\n\n")
 
-    log_entry = f"[{m} x {n}] Found: {result:,} cycles in {time_str}\n"
+    log_entry = f"- [{m} x {n}] Found: {result:,} cycles in {time_str}\n"
     new_lines.append(log_entry)
 
     with open(file_path, 'w', encoding='utf-8') as f:
