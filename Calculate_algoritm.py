@@ -144,17 +144,24 @@ def update_table_file(file_path, m, n, result, time_str):
             new_lines.append(line)
 
     has_log_header = False
+    has_table_header = False
+    
     for line in new_lines:
         if "### Execution Logs" in line:
             has_log_header = True
-            break
-    
+        if "| Grid Size |" in line and "| Cycles Found |" in line:
+            has_table_header = True
+
     if not has_log_header:
-        if not new_lines[-1].endswith("\n"):
+        if new_lines and not new_lines[-1].strip() == "":
             new_lines.append("\n")
         new_lines.append("\n### Execution Logs\n\n")
 
-    log_entry = f"- [{m} x {n}] Found: {result:,} cycles in {time_str}\n"
+    if not has_table_header:
+        new_lines.append("| Grid Size | Cycles Found | Time |\n")
+        new_lines.append("| :---: | :---: | :---: |\n")
+
+    log_entry = f"| {m} x {n} | {result:,} | {time_str} |\n"
     new_lines.append(log_entry)
 
     with open(file_path, 'w', encoding='utf-8') as f:
