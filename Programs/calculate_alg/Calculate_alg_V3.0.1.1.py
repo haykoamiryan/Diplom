@@ -72,8 +72,8 @@ def count_hamiltonian_cycles_numba_128(m, n, neighbors):
         return 0
     start = 0
     
-    full0 = uint64(0xFFFFFFFFFFFFFFFF) if total >= 64 else (uint64(1) << uint64(total)) - 1
-    full1 = (uint64(1) << uint64(total - 64)) - 1 if total > 64 else uint64(0)
+    full0 = uint64(0xFFFFFFFFFFFFFFFF) if total >= 64 else (uint64(1) << uint64(total)) - uint64(1)
+    full1 = (uint64(1) << uint64(total - 64)) - uint64(1) if total > 64 else uint64(0)
 
     count = 0
     stack = np.empty((total + 1, 5), dtype=np.int64)
@@ -127,7 +127,7 @@ def count_hamiltonian_cycles_numba_128(m, n, neighbors):
         
         rem0, rem1 = full0 & ~new_vis0, full1 & ~new_vis1
         chk0, chk1 = rem0 | uint64(1), rem1
-        if not is_connected_128(chk0, chk1, nb, neighbors):
+        if not is_connected_128(chk0, chk1, start, neighbors):
             continue
             
         stack_ptr += 1
@@ -171,17 +171,28 @@ def find_next_task(file_path):
 def update_results_table(file_path, m, n, result, time_str):
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
-    new_lines, updated, log_idx = [], False, -1
+    new_lines, log_idx = [], -1
+    
     for i, line in enumerate(lines):
-        if not updated and line.strip().startswith(f"| **{m}** |"):
+        if line.strip().startswith("|"):
             parts = line.split("|")
-            if n + 1 < len(parts):
-                parts[n + 1] = f" {result:,} "
-                line = "|".join(parts)
-                updated = True
+            if len(parts) > 1:
+                row_label = parts[1].strip()
+                # Update (m, n)
+                if row_label == f"**{m}**":
+                    if n + 1 < len(parts):
+                        parts[n + 1] = f" {result:,} "
+                        line = "|".join(parts)
+                # Update (n, m) if n != m
+                elif m != n and row_label == f"**{n}**":
+                    if m + 1 < len(parts):
+                        parts[m + 1] = f" {result:,} "
+                        line = "|".join(parts)
+        
         if "### Execution Logs" in line:
             log_idx = i
         new_lines.append(line)
+    
     ts = time.strftime("%Y-%m-%d %H:%M:%S")
     log_entry = f"| {m} x {n} | {result:,} | {time_str} | {ts} |\n"
     if log_idx != -1:
