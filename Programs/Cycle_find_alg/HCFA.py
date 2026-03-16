@@ -85,12 +85,16 @@ def dfs_iterative(
     rng:         random.Random,
     warnsdorff_weight: float,   
     random_weight:     float,   
+    max_steps:         int,
 ) -> list[int] | None:
     total   = m * n
     visited = [False] * total
     visited[start_flat] = True
     seen_buf   = [False] * total
     seen_cells: list[int] = []
+    
+    steps_count = 0
+
     def get_neighbors(f: int) -> list[tuple[int, float]]:
         x, y = coords(f, n)
         nbrs = []
@@ -108,6 +112,10 @@ def dfs_iterative(
     stack: list[list] = [[start_flat, get_neighbors(start_flat), 0]]
     path:  list[int]  = [start_flat]
     while stack:
+        steps_count += 1
+        if steps_count > max_steps:
+            return None
+
         frame        = stack[-1]
         f, nbrs, idx = frame[0], frame[1], frame[2]
         depth        = len(path)
@@ -179,6 +187,12 @@ def find_hamiltonian_cycle(
         "restarts": 0, "total_time": 0.0,
         "m": m, "n": n, "found": False
     }
+
+    # Heuristic for step limit per attempt: proportional to grid size
+    # A larger grid needs more steps, but we still want to fail fast if stuck.
+    # Factor 100 allows some backtracking but prevents infinite searching.
+    step_limit = (m * n) * 100
+    
     for attempt in range(max_restarts):
         elapsed = time.perf_counter() - t0
         if elapsed >= time_limit_sec:
@@ -195,7 +209,7 @@ def find_hamiltonian_cycle(
                   f"elapsed={elapsed:.1f}s", end="\r")
         result = dfs_iterative(
             m, n, start, rng,
-            warnsdorff_weight, adaptive_rw
+            warnsdorff_weight, adaptive_rw, step_limit
         )
         stats["restarts"] = attempt + 1
         if result is not None:
