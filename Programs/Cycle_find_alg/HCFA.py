@@ -170,8 +170,8 @@ def find_hamiltonian_cycle(
 ) -> tuple[list[int] | None, dict]:
     if m % 2 == 1 and n % 2 == 1:
         if verbose:
-            print(f"[WARN] Сетка {m}×{n}: нечётное число клеток — "
-                  f"гамильтонов цикл невозможен. n уменьшено до {n-1}.")
+            print(f"[WARN] Grid {m}x{n}: odd number of cells — "
+                  f"Hamiltonian cycle impossible. n reduced to {n-1}.")
         n -= 1
     rng        = random.Random(seed)
     t0         = time.perf_counter()
@@ -183,16 +183,16 @@ def find_hamiltonian_cycle(
         elapsed = time.perf_counter() - t0
         if elapsed >= time_limit_sec:
             if verbose:
-                print(f"[STOP] Превышен лимит времени ({time_limit_sec:.0f}с).")
+                print(f"[STOP] Time limit exceeded ({time_limit_sec:.0f}s).")
             break
         adaptive_rw = random_weight * (1 + attempt * 0.05)
         start = choose_start(m, n, rng)
         sx, sy = coords(start, n)
         if verbose:
-            print(f"  Рестарт {attempt+1:>4}/{max_restarts} | "
-                  f"старт=({sx},{sy}) | "
+            print(f"  Restart {attempt+1:>4}/{max_restarts} | "
+                  f"start=({sx},{sy}) | "
                   f"rw={adaptive_rw:.2f} | "
-                  f"прошло={elapsed:.1f}с", end="\r")
+                  f"elapsed={elapsed:.1f}s", end="\r")
         result = dfs_iterative(
             m, n, start, rng,
             warnsdorff_weight, adaptive_rw
@@ -202,19 +202,19 @@ def find_hamiltonian_cycle(
             stats["total_time"] = time.perf_counter() - t0
             stats["found"]      = True
             if verbose:
-                print(f"\n[OK]  Найден за {stats['total_time']:.2f}с, "
-                      f"рестартов: {stats['restarts']}")
+                print(f"\n[OK]  Found in {stats['total_time']:.2f}s, "
+                      f"restarts: {stats['restarts']}")
             return result, stats
     stats["total_time"] = time.perf_counter() - t0
     if verbose:
-        print(f"\n[FAIL] Не найден. Рестартов: {stats['restarts']}, "
-              f"время: {stats['total_time']:.2f}с")
+        print(f"\n[FAIL] Not found. Restarts: {stats['restarts']}, "
+              f"time: {stats['total_time']:.2f}s")
     return None, stats
 def visualize(
     cycle:  list[int],
     m: int, n: int,
     stats:  dict,
-    title:  str = "Гамильтонов цикл",
+    title:  str = "Hamiltonian Cycle",
 ) -> None:
     fig, ax = plt.subplots(figsize=(max(6, n * 0.7), max(6, m * 0.7)))
     fig.patch.set_facecolor("#0d1117")
@@ -229,6 +229,7 @@ def visualize(
     xs = [c[0] for c in path_coords]
     ax.plot(ys, xs, color="#00ffcc", linewidth=1.2,
             alpha=0.9, zorder=3)
+    ax.scatter(ys, xs, color="#ffffff", s=15, zorder=4)
     k = max(1, len(path_coords) // 40)
     for i in range(0, len(path_coords) - 1, k):
         x0, y0 = path_coords[i]
@@ -251,19 +252,19 @@ def visualize(
     ax.set_yticks(range(m))
     ax.tick_params(colors="#4a6080", labelsize=7)
     cbar = fig.colorbar(im, ax=ax, fraction=0.03, pad=0.02)
-    cbar.set_label("Шаг обхода", color="#8899aa", fontsize=9)
+    cbar.set_label("Step", color="#8899aa", fontsize=9)
     cbar.ax.yaxis.set_tick_params(color="#8899aa")
     plt.setp(cbar.ax.yaxis.get_ticklabels(), color="#8899aa")
-    info = (f"{title}  |  {m}×{n}  |  "
-            f"рестартов: {stats['restarts']}  |  "
-            f"время: {stats['total_time']:.2f}с")
+    info = (f"{title}  |  {m}x{n}  |  "
+            f"restarts: {stats['restarts']}  |  "
+            f"time: {stats['total_time']:.2f}s")
     ax.set_title(info, color="#cdd9e5", fontsize=11, pad=12)
     legend = ax.legend(facecolor="#1e2a38", edgecolor="#4a6080",
                        labelcolor="#cdd9e5", fontsize=9)
     plt.tight_layout()
     plt.savefig(f"hamiltonian_{m}x{n}.png", dpi=150,
                 bbox_inches="tight", facecolor=fig.get_facecolor())
-    print(f"[INFO] График сохранён: hamiltonian_{m}x{n}.png")
+    print(f"[INFO] Plot saved: hamiltonian_{m}x{n}.png")
     plt.show()
 def visualize_animation(
     cycle:  list[int],
@@ -280,6 +281,12 @@ def visualize_animation(
     line, = ax.plot([], [], color="#00ffcc", linewidth=1.5,
                     alpha=0.9, zorder=3)
     path_coords = [coords(f, n) for f in cycle]
+    
+    # Draw all vertices as dots
+    all_ys = [c[1] for c in path_coords]
+    all_xs = [c[0] for c in path_coords]
+    ax.scatter(all_ys, all_xs, color="#ffffff", s=10, zorder=2, alpha=0.6)
+
     total       = len(path_coords)
     ax.set_xticks(np.arange(-0.5, n, 1), minor=True)
     ax.set_yticks(np.arange(-0.5, m, 1), minor=True)
@@ -287,7 +294,7 @@ def visualize_animation(
             linestyle="-", linewidth=0.5)
     ax.set_xticks([])
     ax.set_yticks([])
-    title_text = ax.set_title(f"Анимация: {m}×{n}",
+    title_text = ax.set_title(f"Animation: {m}x{n}",
                  color="#cdd9e5", fontsize=11, pad=12)
     state = {'interval': interval_ms, 'running': True, 'frame': 0}
     def update(frame):
@@ -300,7 +307,7 @@ def visualize_animation(
         line.set_data(ys, xs)
         pct = (frame + 1) / total * 100
         status = "PLAY" if state['running'] else "PAUSE"
-        title_text.set_text(f"Анимация: {m}×{n} | {pct:.0f}% | {status} | Delay: {state['interval']:.0f}ms\n[Space]=Pause/Resume, [Up/Down]=Speed")
+        title_text.set_text(f"Animation: {m}x{n} | {pct:.0f}% | {status} | Delay: {state['interval']:.0f}ms\n[Space]=Pause/Resume, [Up/Down]=Speed")
         return im, line, title_text
     anim = FuncAnimation(
         fig, update, frames=total,
@@ -328,7 +335,7 @@ def visualize_animation(
                 anim.event_source.start()
         status = "PLAY" if state['running'] else "PAUSE"
         pct = (state['frame'] + 1) / total * 100
-        title_text.set_text(f"Анимация: {m}×{n} | {pct:.0f}% | {status} | Delay: {state['interval']:.0f}ms\n[Space]=Pause/Resume, [Up/Down]=Speed")
+        title_text.set_text(f"Animation: {m}x{n} | {pct:.0f}% | {status} | Delay: {state['interval']:.0f}ms\n[Space]=Pause/Resume, [Up/Down]=Speed")
         if not state['running']:
             fig.canvas.draw_idle()
     fig.canvas.mpl_connect('key_press_event', on_key)
@@ -336,27 +343,27 @@ def visualize_animation(
     plt.show()
 def main():
     print("=" * 60)
-    print("  Поиск гамильтонова цикла в сеточном графе")
+    print("  Finding Hamiltonian Cycle in Grid Graph")
     print("=" * 60)
     try:
-        line = input("\nВведите размер сетки (m n): ").strip()
+        line = input("\nEnter grid size (m n): ").strip()
         if not line:
             return
         m, n = map(int, line.split())
-        print("\nПараметры поиска (Enter = значение по умолчанию):")
-        max_r = input(f"  Максимум рестартов   [200]:  ").strip()
+        print("\nSearch Parameters (Enter = default):")
+        max_r = input(f"  Max Restarts         [200]:  ").strip()
         max_restarts = int(max_r) if max_r else 200
-        t_lim = input(f"  Лимит времени (сек)  [300]:  ").strip()
+        t_lim = input(f"  Time Limit (sec)     [300]:  ").strip()
         time_limit = float(t_lim) if t_lim else 300.0
-        ww = input(f"  Вес Варнсдорфа       [1.0]:  ").strip()
+        ww = input(f"  Warnsdorff Weight    [1.0]:  ").strip()
         warnsdorff_weight = float(ww) if ww else 1.0
-        rw = input(f"  Вес случайности      [0.5]:  ").strip()
+        rw = input(f"  Randomness Weight    [0.5]:  ").strip()
         random_weight = float(rw) if rw else 0.5
-        sd = input(f"  Seed (для воспроизв.) [None]: ").strip()
+        sd = input(f"  Seed (for reprod.)   [None]: ").strip()
         seed = int(sd) if sd else None
-        anim = input(f"  Анимация?            [n/y]:  ").strip().lower()
+        anim = input(f"  Animation?           [n/y]:  ").strip().lower()
     except (ValueError, EOFError):
-        print("[ERR] Неверный ввод.")
+        print("[ERR] Invalid input.")
         return
     print()
     cycle, stats = find_hamiltonian_cycle(
@@ -369,14 +376,14 @@ def main():
         verbose           = True,
     )
     if cycle is None:
-        print("\nГамильтонов цикл не найден за отведённое время/рестарты.")
+        print("\nHamiltonian cycle not found within time/restarts limit.")
         return
     actual_n = stats["n"]
-    assert len(cycle) == m * actual_n + 1,  "Длина пути неверна"
-    assert cycle[0] == cycle[-1],           "Цикл не замкнут"
+    assert len(cycle) == m * actual_n + 1,  "Invalid path length"
+    assert cycle[0] == cycle[-1],           "Cycle not closed"
     visited_check = set(cycle[:-1])
-    assert len(visited_check) == m * actual_n, "Не все клетки посещены"
-    print("[OK] Цикл верифицирован.")
+    assert len(visited_check) == m * actual_n, "Not all cells visited"
+    print("[OK] Cycle verified.")
     if anim == "y":
         visualize_animation(cycle, m, actual_n)
     else:
