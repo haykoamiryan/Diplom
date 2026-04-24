@@ -5,17 +5,23 @@ from collections import deque
 import matplotlib
 import matplotlib.pyplot as plt
 import matplotlib.patches as mpatches
-import numpy as np
+import numpy as np 
+
+
 matplotlib.use("TkAgg")          
 sys.setrecursionlimit(10000)        
 DX = (1, -1, 0, 0)
 DY = (0, 0, 1, -1)
+
 def flat(x: int, y: int, n: int) -> int:
     return x * n + y
+
 def coords(f: int, n: int) -> tuple[int, int]:
     return divmod(f, n)
+
 def is_valid(x: int, y: int, m: int, n: int) -> bool:
     return 0 <= x < m and 0 <= y < n
+
 def count_free_neighbors(f: int, visited: list[bool], m: int, n: int) -> int:
     x, y = coords(f, n)
     cnt = 0
@@ -24,6 +30,7 @@ def count_free_neighbors(f: int, visited: list[bool], m: int, n: int) -> int:
         if is_valid(nx, ny, m, n) and not visited[flat(nx, ny, n)]:
             cnt += 1
     return cnt
+
 def choose_start(m: int, n: int, rng: random.Random) -> int:
     inner = [
         flat(x, y, n)
@@ -33,6 +40,7 @@ def choose_start(m: int, n: int, rng: random.Random) -> int:
     pool = inner if inner else [flat(x, y, n)
                                 for x in range(m) for y in range(n)]
     return rng.choice(pool)
+
 def connectivity_and_parity_ok(
     visited:    list[bool],
     seed_flat:  int,
@@ -79,6 +87,7 @@ def connectivity_and_parity_ok(
     return (count == expected
             and near_start
             and abs(whites - blacks) <= 1)
+
 def dfs_iterative(
     m: int, n: int,
     start_flat: int,
@@ -167,6 +176,7 @@ def dfs_iterative(
                 path.pop()
                 visited[f] = False
     return None
+
 def find_hamiltonian_cycle(
     m: int, n: int,
     max_restarts:      int   = 200,
@@ -224,6 +234,7 @@ def find_hamiltonian_cycle(
         print(f"\n[FAIL] Not found. Restarts: {stats['restarts']}, "
               f"time: {stats['total_time']:.2f}s")
     return None, stats
+
 def visualize(
     cycle:  list[int],
     m: int, n: int,
@@ -280,6 +291,7 @@ def visualize(
                 bbox_inches="tight", facecolor=fig.get_facecolor())
     print(f"[INFO] Plot saved: hamiltonian_{m}x{n}.png")
     plt.show()
+
 def visualize_animation(
     cycle:  list[int],
     m: int, n: int,
@@ -355,6 +367,7 @@ def visualize_animation(
     fig.canvas.mpl_connect('key_press_event', on_key)
     plt.tight_layout()
     plt.show()
+
 def main():
     print("=" * 60)
     print("  Finding Hamiltonian Cycle in Grid Graph")
@@ -402,5 +415,6 @@ def main():
         visualize_animation(cycle, m, actual_n)
     else:
         visualize(cycle, m, actual_n, stats)
+
 if __name__ == "__main__":
     main()
