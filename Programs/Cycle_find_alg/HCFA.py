@@ -186,22 +186,28 @@ def find_hamiltonian_cycle(
     seed:              int | None = None,
     verbose:           bool  = True,
 ) -> tuple[list[int] | None, dict]:
-    if m % 2 == 1 and n % 2 == 1:
-        if verbose:
-            print(f"[WARN] Grid {m}x{n}: odd number of cells — "
-                  f"Hamiltonian cycle impossible. n reduced to {n-1}.")
-        n -= 1
-    rng        = random.Random(seed)
-    t0         = time.perf_counter()
     stats      = {
         "restarts": 0, "total_time": 0.0,
         "m": m, "n": n, "found": False
     }
+    
+    if m % 2 == 1 and n % 2 == 1:
+        if verbose:
+            print(f"[WARN] Grid {m}x{n}: odd number of cells — "
+                  f"Hamiltonian cycle impossible. Please choose a different size.")
+        return None, stats
+
+    rng        = random.Random(seed)
+    t0         = time.perf_counter()
 
     # Heuristic for step limit per attempt: proportional to grid size
     # A larger grid needs more steps, but we still want to fail fast if stuck.
     # Factor 100 allows some backtracking but prevents infinite searching.
     step_limit = (m * n) * 100
+    
+    # Choose the start point once for all restarts
+    start = choose_start(m, n, rng)
+    sx, sy = coords(start, n)
     
     for attempt in range(max_restarts):
         elapsed = time.perf_counter() - t0
@@ -209,9 +215,10 @@ def find_hamiltonian_cycle(
             if verbose:
                 print(f"[STOP] Time limit exceeded ({time_limit_sec:.0f}s).")
             break
-        adaptive_rw = random_weight * (1 + attempt * 0.05)
-        start = choose_start(m, n, rng)
-        sx, sy = coords(start, n)
+        
+        # Use constant random weight
+        adaptive_rw = random_weight
+        
         if verbose:
             print(f"  Restart {attempt+1:>4}/{max_restarts} | "
                   f"start=({sx},{sy}) | "
@@ -372,49 +379,56 @@ def main():
     print("=" * 60)
     print("  Finding Hamiltonian Cycle in Grid Graph")
     print("=" * 60)
-    try:
-        line = input("\nEnter grid size (m n): ").strip()
-        if not line:
-            return
-        m, n = map(int, line.split())
-        print("\nSearch Parameters (Enter = default):")
-        max_r = input(f"  Max Restarts         [200]:  ").strip()
-        max_restarts = int(max_r) if max_r else 200
-        t_lim = input(f"  Time Limit (sec)     [300]:  ").strip()
-        time_limit = float(t_lim) if t_lim else 300.0
-        ww = input(f"  Warnsdorff Weight    [1.0]:  ").strip()
-        warnsdorff_weight = float(ww) if ww else 1.0
-        rw = input(f"  Randomness Weight    [0.5]:  ").strip()
-        random_weight = float(rw) if rw else 0.5
-        sd = input(f"  Seed (for reprod.)   [None]: ").strip()
-        seed = int(sd) if sd else None
-        anim = input(f"  Animation?           [n/y]:  ").strip().lower()
-    except (ValueError, EOFError):
-        print("[ERR] Invalid input.")
-        return
-    print()
-    cycle, stats = find_hamiltonian_cycle(
-        m, n,
-        max_restarts      = max_restarts,
-        time_limit_sec    = time_limit,
-        warnsdorff_weight = warnsdorff_weight,
-        random_weight     = random_weight,
-        seed              = seed,
-        verbose           = True,
-    )
-    if cycle is None:
-        print("\nHamiltonian cycle not found within time/restarts limit.")
-        return
-    actual_n = stats["n"]
-    assert len(cycle) == m * actual_n + 1,  "Invalid path length"
-    assert cycle[0] == cycle[-1],           "Cycle not closed"
-    visited_check = set(cycle[:-1])
-    assert len(visited_check) == m * actual_n, "Not all cells visited"
-    print("[OK] Cycle verified.")
-    if anim == "y":
-        visualize_animation(cycle, m, actual_n)
-    else:
-        visualize(cycle, m, actual_n, stats)
+    while True:
+        try:
+            line = input("\nEnter grid size (m n, or empty to exit): ").strip()
+            if not line:
+                break
+            m, n = map(int, line.split())
+            if m % 2 == 1 and n % 2 == 1:
+                print(f"[WARN] Grid {m}x{n}: odd number of cells — Hamiltonian cycle impossible. Please choose a different size.")
+                continue
+
+            print("\nSearch Parameters (Enter = default):")
+            max_r = input(f"  Max Restarts         [200]:  ").strip()
+            max_restarts = int(max_r) if max_r else 200
+            t_lim = input(f"  Time Limit (sec)     [300]:  ").strip()
+            time_limit = float(t_lim) if t_lim else 300.0
+            ww = input(f"  Warnsdorff Weight    [1.0]:  ").strip()
+            warnsdorff_weight = float(ww) if ww else 1.0
+            rw = input(f"  Randomness Weight    [0.5]:  ").strip()
+            random_weight = float(rw) if rw else 0.5
+            sd = input(f"  Seed (for reprod.)   [None]: ").strip()
+            seed = int(sd) if sd else None
+            anim = input(f"  Animation?           [n/y]:  ").strip().lower()
+        except (ValueError, EOFError):
+            print("[ERR] Invalid input. Please enter valid numbers.")
+            continue
+            
+        print()
+        cycle, stats = find_hamiltonian_cycle(
+            m, n,
+            max_restarts      = max_restarts,
+            time_limit_sec    = time_limit,
+            warnsdorff_weight = warnsdorff_weight,
+            random_weight     = random_weight,
+            seed              = seed,
+            verbose           = True,
+        )
+        if cycle is None:
+            print("\nHamiltonian cycle not found within time/restarts limit.")
+            continue
+            
+        actual_n = stats["n"]
+        assert len(cycle) == m * actual_n + 1,  "Invalid path length"
+        assert cycle[0] == cycle[-1],           "Cycle not closed"
+        visited_check = set(cycle[:-1])
+        assert len(visited_check) == m * actual_n, "Not all cells visited"
+        print("[OK] Cycle verified.")
+        if anim == "y":
+            visualize_animation(cycle, m, actual_n)
+        else:
+            visualize(cycle, m, actual_n, stats)
 
 if __name__ == "__main__":
     main()
