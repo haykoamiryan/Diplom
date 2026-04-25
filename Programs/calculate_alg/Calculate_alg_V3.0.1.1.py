@@ -200,7 +200,7 @@ def update_results_table(table_path, logs_path, m, n, result, time_str):
         writer.writerows(rows)
 
     ts = time.strftime("%d.%m.%Y %H:%M")
-    log_entry = f"{m} x {n};{result:,};{time_str};{ts}\n"
+    log_entry = f'{m} x {n},"{result:,}",{time_str},{ts}\n'
     with open(logs_path, 'a', encoding='utf-8') as f:
         f.write(log_entry)
 
