@@ -145,74 +145,68 @@ def format_time_readable(seconds):
     return f"{m}m {int(s)}s" if m > 0 else f"{s:.2f}s"
 
 def find_next_task(file_path):
+    import csv
     if not os.path.exists(file_path):
         return None
     tasks = []
     with open(file_path, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-    for line in lines:
-        if not line.strip().startswith("| **"):
-            continue
-        parts = [p.strip() for p in line.split("|")]
-        if len(parts) < 3:
-            continue
-        try:
-            m = int(parts[1].replace("*", ""))
-        except:
-            continue
-        for n_idx, cell in enumerate(parts[2:-1], 1):
-            if cell == "":
-                tasks.append((m, n_idx))
+        reader = csv.reader(f)
+        for i, row in enumerate(reader):
+            if i == 0 or not row:
+                continue
+            try:
+                m = int(row[0])
+            except ValueError:
+                continue
+            for n_idx, cell in enumerate(row[1:], 1):
+                if cell.strip() == "":
+                    tasks.append((m, n_idx))
     if not tasks:
         return None
-    tasks.sort(key=lambda x: (x[0] * x[1], x[0]))
+    tasks.sort(key=lambda x: (min(x[0], x[1]), x[0] * x[1]))
     return tasks[0]
 
-def update_results_table(file_path, m, n, result, time_str):
-    with open(file_path, 'r', encoding='utf-8') as f:
-        lines = f.readlines()
-    new_lines, log_idx = [], -1
-    
-    for i, line in enumerate(lines):
-        if line.strip().startswith("|"):
-            parts = line.split("|")
-            if len(parts) > 1:
-                row_label = parts[1].strip()
-                # Update (m, n)
-                if row_label == f"**{m}**":
-                    if n + 1 < len(parts):
-                        parts[n + 1] = f" {result:,} "
-                        line = "|".join(parts)
-                # Update (n, m) if n != m
-                elif m != n and row_label == f"**{n}**":
-                    if m + 1 < len(parts):
-                        parts[m + 1] = f" {result:,} "
-                        line = "|".join(parts)
+def update_results_table(table_path, logs_path, m, n, result, time_str):
+    import csv
+    rows = []
+    with open(table_path, 'r', encoding='utf-8') as f:
+        reader = csv.reader(f)
+        for row in reader:
+            rows.append(row)
+            
+    for row in rows:
+        if not row:
+            continue
+        try:
+            row_m = int(row[0])
+        except ValueError:
+            continue
         
-        if "### Execution Logs" in line:
-            log_idx = i
-        new_lines.append(line)
-    
-    ts = time.strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"| {m} x {n} | {result:,} | {time_str} | {ts} |\n"
-    if log_idx != -1:
-        found = False
-        for j in range(log_idx, min(log_idx + 10, len(new_lines))):
-            if "| Grid Size |" in new_lines[j]:
-                found = True
-                new_lines.insert(j + 2, log_entry)
-                break
-        if not found:
-            new_lines.insert(log_idx + 1, "\n| Grid Size | Cycles Found | Time | Finished At |\n| :---: | :---: | :---: | :---: |\n")
-            new_lines.insert(log_idx + 3, log_entry)
-    else:
-        new_lines.append("\n### Execution Logs\n\n| Grid Size | Cycles Found | Time | Finished At |\n| :---: | :---: | :---: | :---: |\n")
-        new_lines.append(log_entry)
-    with open(file_path, 'w', encoding='utf-8') as f:
-        f.writelines(new_lines)
+        if row_m == m:
+            if n < len(row):
+                row[n] = f"{result:,}"
+            else:
+                row.extend([""] * (n - len(row) + 1))
+                row[n] = f"{result:,}"
+        if m != n and row_m == n:
+            if m < len(row):
+                row[m] = f"{result:,}"
+            else:
+                row.extend([""] * (m - len(row) + 1))
+                row[m] = f"{result:,}"
+
+    with open(table_path, 'w', encoding='utf-8', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerows(rows)
+
+    ts = time.strftime("%d.%m.%Y %H:%M")
+    log_entry = f"{m} x {n};{result:,};{time_str};{ts}\n"
+    with open(logs_path, 'a', encoding='utf-8') as f:
+        f.write(log_entry)
 
 def main():
-    table_filename = "Calculate Table V3.0.1.1.md"
+    table_filename = "Calculate Table V3.0.1.1.csv"
+    logs_filename = "logs.csv"
     table_arg = sys.argv[1] if len(sys.argv) > 1 else table_filename
     script_dir = os.path.dirname(os.path.abspath(__file__))
     possible_paths = [os.path.join(script_dir, table_arg), table_arg, os.path.abspath(table_arg)]
@@ -225,8 +219,11 @@ def main():
         print(f"Error: Database file '{table_arg}' not found.")
         return
 
+    logs_path = os.path.join(script_dir, logs_filename)
+
     print("System initialized. Method: Hamiltonian Path Enumeration (128-bit architecture).")
     print(f"Target data file: {table_path}")
+    print(f"Target logs file: {logs_path}")
 
     while True:
         task = find_next_task(table_path)
@@ -242,7 +239,7 @@ def main():
         dt = time.time() - t0
         t_str = format_time_readable(dt)
         print(f"Completed. Result: {result:,} cycles. Elapsed time: {t_str}")
-        update_results_table(table_path, m, n, result, t_str)
+        update_results_table(table_path, logs_path, m, n, result, t_str)
         time.sleep(0.1)
 
 if __name__ == "__main__":
