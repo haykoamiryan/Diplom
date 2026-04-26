@@ -150,7 +150,7 @@ def find_next_task(file_path):
         return None
     tasks = []
     with open(file_path, 'r', encoding='utf-8') as f:
-        reader = csv.reader(f)
+        reader = csv.reader(f, delimiter=',')
         for i, row in enumerate(reader):
             if i == 0 or not row:
                 continue
@@ -170,7 +170,7 @@ def update_results_table(table_path, logs_path, m, n, result, time_str):
     import csv
     rows = []
     with open(table_path, 'r', encoding='utf-8') as f:
-        reader = csv.reader(f)
+        reader = csv.reader(f, delimiter=',')
         for row in reader:
             rows.append(row)
             
